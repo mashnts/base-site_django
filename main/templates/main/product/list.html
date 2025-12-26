@@ -1,0 +1,116 @@
+{% extends 'main/base.html' %}
+
+{% block extra_css %}
+<style>
+    .products-header {
+        margin-bottom: 40px;
+    }
+    .products-header h1 {
+        font-size: 32px;
+        color: #2c3e50;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        list-style: none;
+        padding: 0;
+    }
+    .product-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        transition: box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    .product-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        background-color: #f0f0f0;
+    }
+    .no-image {
+        width: 100%;
+        height: 200px;
+        background-color: #e0e0e0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+    .product-link {
+        color: #3498db;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .product-link:hover {
+        color: #2980b9;
+    }
+    .product-card h2 {
+        font-size: 22px;
+        color: #2c3e50;
+        margin: 10px 0;
+    }
+    .product-price {
+        font-size: 20px;
+        color: #2c3e50;
+        font-weight: bold;
+        margin: 15px 0;
+    }
+    .product-btn {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    .product-btn:hover {
+        background-color: #0056b3;
+    }
+    .no-products {
+        text-align: center;
+        color: #7f8c8d;
+        font-size: 18px;
+        padding: 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="products-header">
+        <h1>Все товары</h1>
+    </div>
+    <ul class="products-grid">
+        {% for product in products %}
+            <li class="product-card">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                    <div class="no-image">Нет изображения</div>
+                {% endif %}
+                <a href="{{ product.get_absolute_url }}" class="product-link">{{ product.slug }}</a>
+                <h2>{{ product.name }}</h2>
+                <p class="product-price">{{ product.price }} руб.</p>
+                <a href="{{ product.get_absolute_url }}" class="product-btn">Подробнее</a>
+            </li>
+        {% empty %}
+            <li>Нет доступных продуктов.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
