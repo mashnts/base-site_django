@@ -89,6 +89,42 @@
     .related-card a:hover {
         text-decoration: underline;
     }
+    .add-to-cart-form {
+        margin-top: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        border: 2px solid #e0e0e0;
+    }
+    .quantity-label {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        display: block;
+    }
+    .quantity-input {
+        width: 80px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-right: 15px;
+    }
+    .add-to-cart-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 40px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .add-to-cart-btn:hover {
+        background-color: #218838;
+    }
 </style>
 {% endblock %}
 
@@ -120,6 +156,14 @@
             <div class="product-meta">
                 Добавлено: {{ product.created|date:"d.m.Y" }}
             </div>
+
+            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="add-to-cart-form">
+                {% csrf_token %}
+                <label class="quantity-label">Количество:</label>
+                <input type="number" name="quantity" value="1" min="1" max="20" class="quantity-input">
+                <input type="hidden" name="override" value="False">
+                <button type="submit" class="add-to-cart-btn">Добавить в корзину</button>
+            </form>
         </div>
 
         {% if related_products %}
